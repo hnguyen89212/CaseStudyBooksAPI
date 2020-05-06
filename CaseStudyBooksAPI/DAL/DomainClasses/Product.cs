@@ -11,7 +11,7 @@ namespace CaseStudyBooksAPI.DAL.DomainClasses
         // Primary Key
         [Key]
         [Required]
-        public string ProductName;
+        public string ProductName { get; set; }
 
         // Brand [1] - Product [N]
         // Foreign Key
