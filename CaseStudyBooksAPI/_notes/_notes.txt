@@ -1,0 +1,6 @@
+﻿install-package Microsoft.EntityFrameworkCore
+install-package Microsoft.EntityFrameworkCore.SqlServer
+install-package Microsoft.EntityFrameworkCore.Tools
+install-package Microsoft.EntityFrameworkCore.Proxies
+
+This time we need to build the database ourselves.
