@@ -37,7 +37,7 @@ namespace CaseStudyBooksAPI.DAL.DomainClasses
         public int QtyOnBackOrder { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(2000)]
         public string Description { get; set; }
 
         [Required]
