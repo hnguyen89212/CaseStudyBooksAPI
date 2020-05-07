@@ -24,9 +24,21 @@ namespace CaseStudyBooksAPI
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Allows front-end to connect
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             services.AddControllers();
 
             // Specifies DB context
@@ -51,6 +63,9 @@ namespace CaseStudyBooksAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Allow front-end to query
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {
