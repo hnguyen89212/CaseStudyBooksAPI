@@ -31,7 +31,7 @@ namespace CaseStudyBooksAPI.Migrations
                     MSRP = table.Column<decimal>(type: "money", nullable: false),
                     QtyOnHand = table.Column<int>(nullable: false),
                     QtyOnBackOrder = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(maxLength: 200, nullable: false),
+                    Description = table.Column<string>(maxLength: 2000, nullable: false),
                     ReleasedYear = table.Column<int>(nullable: false),
                     Timer = table.Column<byte[]>(type: "timestamp", maxLength: 8, nullable: true)
                 },
