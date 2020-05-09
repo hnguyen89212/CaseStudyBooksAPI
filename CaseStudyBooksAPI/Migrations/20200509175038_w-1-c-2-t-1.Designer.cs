@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CaseStudyBooksAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200507011150_week-1-class-2")]
-    partial class week1class2
+    [Migration("20200509175038_w-1-c-2-t-1")]
+    partial class w1c2t1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

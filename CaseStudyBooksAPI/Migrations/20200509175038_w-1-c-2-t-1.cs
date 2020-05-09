@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CaseStudyBooksAPI.Migrations
 {
-    public partial class week1class2 : Migration
+    public partial class w1c2t1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
