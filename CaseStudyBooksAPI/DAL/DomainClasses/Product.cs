@@ -21,6 +21,10 @@ namespace CaseStudyBooksAPI.DAL.DomainClasses
         public Brand Brand { get; set; }
 
         [Required]
+        [StringLength(100)]
+        public string GraphicName { get; set; }
+
+        [Required]
         [Column(TypeName = "money")]
         [Range(0, 9999.99)]
         public decimal CostPrice { get; set; }
