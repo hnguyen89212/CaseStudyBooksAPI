@@ -12,19 +12,22 @@ namespace CaseStudyBooksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private AppDbContext _db;
 
-        public BrandController(AppDbContext context)
+        public ProductController(AppDbContext context)
         {
             _db = context;
         }
 
-        public ActionResult<List<Brand>> Index()
+        // Gets all products from a brand.
+        [Route("{brandId}")]
+        public ActionResult<List<Product>> Index(int brandId)
         {
-            BrandDAO dao = new BrandDAO(_db);
-            return dao.GetAll();
+            ProductDAO productDAO = new ProductDAO(_db);
+            List<Product> productsUnderTheBrand = productDAO.GetAllByBrand(brandId);
+            return productsUnderTheBrand;
         }
     }
 }

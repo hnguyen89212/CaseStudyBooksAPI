@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CaseStudyBooksAPI.DAL.DAO
 {
+    /**
+     * Brand repository to query brands through db context.
+     */
     public class BrandDAO
     {
         private AppDbContext _db;
@@ -15,7 +18,8 @@ namespace CaseStudyBooksAPI.DAL.DAO
             _db = context;
         }
 
-        public List<Brand> getAll()
+        // Gets all brands.
+        public List<Brand> GetAll()
         {
             return _db.Brands.ToList<Brand>();
         }
