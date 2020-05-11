@@ -1,4 +1,4 @@
-UPDATE Products SET GraphicName = 'mordern_php.jpg' WHERE ProductName = 'Modern PHP: New Features and Good Practices';
+UPDATE Products SET GraphicName = 'modern_php.jpg' WHERE ProductName = 'Modern PHP: New Features and Good Practices';
 UPDATE Products SET GraphicName = 'learning_php_mysql_js.jpg' WHERE ProductName = 'Learning PHP, MySQL & JavaScript: With jQuery, CSS & HTML5';
 UPDATE Products SET GraphicName = 'css_the_definitive_guide.jpg' WHERE ProductName = 'CSS: The Definitive Guide';
 UPDATE Products SET GraphicName = 'js_the_good_part.jpg' WHERE ProductName = 'JavaScript: The Good Parts';
