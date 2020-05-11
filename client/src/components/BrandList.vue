@@ -99,6 +99,20 @@
             <strong>Description</strong>: {{ selectedProduct.description }}
           </v-col>
         </v-row>
+        <v-row style="margin-left:3vw;">
+          <v-col>Qty:</v-col>
+          <v-col>
+            <input
+              type="number"
+              maxlength="3"
+              placeholder="enter qty"
+              size="3"
+              style="width: 15vw;border-bottom:solid;text-align:right"
+              v-model="qty"
+            />
+          </v-col>
+          <v-col cols="7"></v-col>
+        </v-row>
       </v-card>
     </v-dialog>
     <v-footer absolute class="headline">
@@ -125,7 +139,7 @@ export default {
       selectedProduct: {},
       dialogStatus: "",
       qty: 0,
-      tray: [],
+      cart: [],
     };
   },
   mixins: [fetcher],
@@ -139,6 +153,9 @@ export default {
     } catch (err) {
       console.log(err);
       this.status = `Error has occured: ${err.message}`;
+    }
+    if (sessionStorage.getItem("cart")) {
+      this.cart = await JSON.parse(sessionStorage.getItem("cart"));
     }
   },
   methods: {
