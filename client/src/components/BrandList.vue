@@ -33,6 +33,7 @@
               <v-list-item
                 v-for="(item, i) in products"
                 :key="i"
+                @click="popUpDialog(item)"
                 style="border:solid;"
               >
                 <v-col style="width:25%;">
@@ -56,6 +57,50 @@
         </v-col>
       </v-row>
     </div>
+    <!-- dialog, rendered if the selectedProduct is non-empty only. -->
+    <v-dialog
+      v-model="dialog"
+      v-if="Object.keys(selectedProduct).length"
+      justify="center"
+      align="center"
+    >
+      <v-card>
+        <v-row>
+          <v-spacer></v-spacer>
+          <!-- a X button to close the dialog -->
+          <v-btn
+            text
+            @click="dialog = false"
+            style="font-size:XX-large;margin:1vw;"
+            >X</v-btn
+          >
+        </v-row>
+        <v-row style="margin-left:3vw;margin-right:3vw;">
+          <v-col class="font-weight-medium, title" style="width:50%;"
+            >{{ selectedProduct.productName }} (published
+            {{ selectedProduct.releasedYear }})</v-col
+          >
+          <v-col style="width:50%;">
+            <v-img :src="require(`../assets/${selectedProduct.graphicName}`)" />
+          </v-col>
+        </v-row>
+        <v-row class="title" justify="center" align="center">
+          MSRP: {{ selectedProduct.msrp }}
+        </v-row>
+        <v-row class="subtitle-2" justify="center" align="center">
+          Items in stock: {{ selectedProduct.qtyOnHand }}
+        </v-row>
+        <v-row
+          justify="center"
+          align="center"
+          style="margin-left:3vw;margin-right:3vw;"
+        >
+          <v-col>
+            <strong>Description</strong>: {{ selectedProduct.description }}
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-dialog>
     <v-footer absolute class="headline">
       <v-col class="text-center" cols="12">
         &copy;{{ new Date().getFullYear() }} — INFO3067
@@ -75,6 +120,12 @@ export default {
       brands: [],
       products: [],
       status: {},
+      // a switch to toggle the dialog
+      dialog: false,
+      selectedProduct: {},
+      dialogStatus: "",
+      qty: 0,
+      tray: [],
     };
   },
   mixins: [fetcher],
@@ -103,6 +154,24 @@ export default {
         }
       }
     },
+    popUpDialog: function(product) {
+      this.dialog = !this.dialog;
+      this.selectedProduct = product;
+      this.dialogStatus = "";
+    },
   },
 };
+/**
+brand: (...)
+brandId: (...)
+costPrice: (...)
+description: (...)
+graphicName: (...)
+msrp: (...)
+productName: (...)
+qtyOnBackOrder: (...)
+qtyOnHand: (...)
+releasedYear: (...)
+timer: (...)
+ */
 </script>

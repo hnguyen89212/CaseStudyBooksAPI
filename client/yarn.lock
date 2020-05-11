@@ -8021,6 +8021,11 @@ vue-cli-plugin-vuetify@~2.0.5:
     semver "^7.1.2"
     shelljs "^0.8.3"
 
+vue-currency-filter@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/vue-currency-filter/-/vue-currency-filter-5.0.2.tgz#2ca893c0d0b5be139dbdd1fe9cc852119282b7da"
+  integrity sha512-RmgAFxDJo9dALNlBk/OyT7TotICHLUX5OnVt4t1bq+tEMVTKY0cUDnHRITqqUQKNAaPSgBxs+x+G7OTylBTWpA==
+
 vue-eslint-parser@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.0.0.tgz#a4ed2669f87179dedd06afdd8736acbb3a3864d6"
