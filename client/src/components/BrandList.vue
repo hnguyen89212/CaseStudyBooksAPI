@@ -85,7 +85,7 @@
           </v-col>
         </v-row>
         <v-row class="title" justify="center" align="center">
-          MSRP: {{ selectedProduct.msrp }}
+          MSRP: {{ selectedProduct.msrp | currency }}
         </v-row>
         <v-row class="subtitle-2" justify="center" align="center">
           Items in stock: {{ selectedProduct.qtyOnHand }}
@@ -113,6 +113,23 @@
           </v-col>
           <v-col cols="7"></v-col>
         </v-row>
+        <v-row
+          justify="center"
+          align="center"
+          style="margin-bottom:2vh;margin-left:3vw;"
+        >
+          <v-col>
+            <v-btn medium outlined color="default" @click="addToCart"
+              >Add To cart</v-btn
+            >
+          </v-col>
+          <v-col>
+            <v-btn medium outlined color="default" disabled>View cart</v-btn>
+          </v-col>
+        </v-row>
+        <v-row justify="center" align="center" style="padding-bottom:5vh;">{{
+          this.dialogStatus
+        }}</v-row>
       </v-card>
     </v-dialog>
     <v-footer absolute class="headline">
@@ -175,6 +192,35 @@ export default {
       this.dialog = !this.dialog;
       this.selectedProduct = product;
       this.dialogStatus = "";
+    },
+    addToCart: function() {
+      const index = this.cart.findIndex(
+        // is item already on the cart
+        // (item) => item.id === this.selectedProduct.id
+        (item) => item.productName === this.selectedProduct.productName
+      );
+      if (parseInt(this.qty) > 0) {
+        index === -1
+          ? this.cart.push({
+              // item is not yet in cart
+              productName: this.selectedProduct.productName,
+              qty: this.qty,
+              item: this.selectedProduct,
+            })
+          : (this.cart[index] = {
+              // the item is already on cart, update the quantity
+              productName: this.selectedProduct.productName,
+              qty: this.qty,
+              item: this.selectedProduct,
+            });
+        this.dialogStatus = `${this.qty} item(s) added`;
+      } else if (this.qty === "0") {
+        // if quantity = 0 and index is valid, remove the item at that index.
+        index === -1 ? null : this.cart.splice(index, 1); // remove
+        this.dialogStatus = `item(s) removed`;
+      }
+      sessionStorage.setItem("cart", JSON.stringify(this.cart));
+      console.table(this.cart);
     },
   },
 };
