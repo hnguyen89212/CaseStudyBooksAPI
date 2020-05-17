@@ -124,7 +124,9 @@
             >
           </v-col>
           <v-col>
-            <v-btn medium outlined color="default" disabled>View cart</v-btn>
+            <v-btn medium outlined color="default" @click="viewCart"
+              >View cart</v-btn
+            >
           </v-col>
         </v-row>
         <v-row justify="center" align="center" style="padding-bottom:5vh;">{{
@@ -216,6 +218,12 @@ export default {
       }
       sessionStorage.setItem("cart", JSON.stringify(this.cart));
       console.table(this.cart);
+    },
+    viewCart: function() {
+      // whenever user presses View Cart, the "/cart" route is activated.
+      this.$router.push({
+        name: "cart",
+      });
     },
   },
 };
