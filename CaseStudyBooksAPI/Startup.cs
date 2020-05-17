@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using CaseStudyBooksAPI.DAL;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CaseStudyBooksAPI
 {
@@ -48,6 +51,29 @@ namespace CaseStudyBooksAPI
             // * Build the project
             // * run `add-migration week-1-class-2`
             // * run `update-database`
+
+            // jwt addition
+            // get key from settings
+            var appSettings = Configuration.GetSection("AppSettings").GetValue<string>("Secret");
+            var key = Encoding.ASCII.GetBytes(appSettings);
+            // add scheme and options
+            services.AddAuthentication(scheme =>
+            {
+                scheme.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                scheme.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(option =>
+            {
+                option.RequireHttpsMetadata = false;
+                option.SaveToken = true;
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +87,10 @@ namespace CaseStudyBooksAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
