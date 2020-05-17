@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CaseStudyBooksAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200510225836_w-1-c-2-t-2")]
-    partial class w1c2t2
+    [Migration("20200517230008_w-3-c-2")]
+    partial class w3c2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,38 @@ namespace CaseStudyBooksAPI.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("CaseStudyBooksAPI.DAL.DomainClasses.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Hash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("CaseStudyBooksAPI.DAL.DomainClasses.Product", b =>
                 {
                     b.Property<string>("ProductName")
@@ -60,7 +92,6 @@ namespace CaseStudyBooksAPI.Migrations
                         .HasMaxLength(2000);
 
                     b.Property<string>("GraphicName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
