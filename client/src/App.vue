@@ -1,13 +1,8 @@
 <template>
   <v-app>
     <v-content>
-      <v-toolbar color="primary" class="white--text">
-        <v-toolbar-title>
-          <span>Info3067Exercises</span>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-      </v-toolbar>
-      <BrandList />
+      <Navbar />
+      <router-view></router-view>
       <v-footer absolute class="headline" color="warning">
         <v-col class="text-center" cols="12">
           &copy;{{ new Date().getFullYear() }} — INFO3067
@@ -18,17 +13,15 @@
 </template>
 
 <script>
-import BrandList from "./components/BrandList";
+import Navbar from "./components/Navbar.vue";
 
 export default {
   name: "App",
-
   components: {
-    BrandList,
+    Navbar,
   },
-
   data: () => ({
-    //
+    // empty
   }),
 };
 </script>
