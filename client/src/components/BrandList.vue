@@ -132,11 +132,6 @@
         }}</v-row>
       </v-card>
     </v-dialog>
-    <v-footer absolute class="headline">
-      <v-col class="text-center" cols="12">
-        &copy;{{ new Date().getFullYear() }} — INFO3067
-      </v-col>
-    </v-footer>
   </v-container>
 </template>
 
