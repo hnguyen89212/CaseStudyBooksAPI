@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./components/Home.vue";
 import BrandList from "./components/BrandList.vue";
+import CartDetails from "./components/CartDetails.vue";
 
 Vue.use(Router);
 
@@ -18,6 +19,11 @@ export const router = new Router({
       path: "/brands",
       name: "Brands/Publishers",
       component: BrandList,
+    },
+    {
+      path: "/cart",
+      name: "cart",
+      component: CartDetails,
     },
   ],
 });
