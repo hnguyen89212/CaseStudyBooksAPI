@@ -10,6 +10,7 @@ using CaseStudyBooksAPI.DAL;
 using CaseStudyBooksAPI.DAL.DAO;
 using CaseStudyBooksAPI.DAL.DomainClasses;
 using CaseStudyBooksAPI.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CaseStudyBooksAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -31,6 +33,7 @@ namespace CaseStudyBooksAPI.Controllers
             configurations = config;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Produces("application/json")]
         public ActionResult<CustomerHelper> Index(CustomerHelper userHelper)

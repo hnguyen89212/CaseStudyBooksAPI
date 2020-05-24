@@ -161,8 +161,8 @@ export default {
     // don't use arrow function here
     try {
       this.status = "fetching brands from server...";
-      let response = await fetch(`https://localhost:44308/api/brand`);
-      this.brands = await response.json();
+      let response = await this.$_getdata("brand");
+      this.brands = response;
       this.status = `loaded ${this.brands.length + 1} brands`;
     } catch (err) {
       console.log(err);
@@ -177,7 +177,7 @@ export default {
       if (brandId > 0) {
         try {
           this.status = "fetching brands from server...";
-          this.products = await this.fetchData(`product/${brandId}`);
+          this.products = await this.$_getdata(`product/${brandId}`);
           this.status = `Found ${this.products.length} products`;
         } catch (err) {
           console.log(err);

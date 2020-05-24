@@ -88,14 +88,13 @@ namespace CaseStudyBooksAPI
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
 
-            app.UseAuthorization();
-
             // Allow front-end to query
+            // This should come before the authorization.
             app.UseCors(MyAllowSpecificOrigins);
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

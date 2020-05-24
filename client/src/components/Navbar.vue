@@ -35,6 +35,9 @@ export default {
     links: [
       { text: "Home", route: "/" },
       { text: "Brands/Publishers", route: "/brands" },
+      { text: "Register", route: "/register" },
+      { text: "Login", route: "/login" },
+      { text: "Logout", route: "/logout" },
     ],
   }),
 };

@@ -6,16 +6,46 @@ export default {
     };
   },
   methods: {
-    fetchData: async function(apiCall) {
+    $_getdata: async function(apiCall) {
       let payload = {};
+      // Since app is secure, headers for authorization is a must.
+      let headers = this.buildHeaders();
       try {
-        let response = await fetch(`${this.serverBaseURL}${apiCall}`);
+        let response = await fetch(`${this.serverBaseURL}${apiCall}`, {
+          method: "GET",
+          headers: headers,
+        });
         payload = await response.json();
+        console.log(payload);
       } catch (err) {
         console.log(err);
         payload = err;
       }
       return payload;
+    },
+    $_postdata: async function(apiCall, data) {
+      let payload = JSON.stringify(data);
+      try {
+        let response = await fetch(`${this.serverBaseURL}${apiCall}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: payload,
+        });
+        payload = await response.json();
+      } catch (error) {
+        payload = error;
+      }
+      return payload;
+    },
+    // We append the user's token to make further API requests.
+    buildHeaders: function() {
+      let headers = new Headers();
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      headers.append("Content-Type", "application/json");
+      headers.append("Authorization", "Bearer " + user.token);
+      return headers;
     },
   },
 };
