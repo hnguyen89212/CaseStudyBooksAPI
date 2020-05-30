@@ -10,7 +10,11 @@ namespace CaseStudyBooksAPI.DAL.DomainClasses
     /**
      * A class to model an item in an order.
      * It should be distinguished from a product.
-     */ 
+     * 
+     * Why should we set the ProductName column to have max length of 450?
+     * Because the migration w-3-c-2 specifies that 
+     * the ProductName in Products table has max length of 450.
+     */
     public class OrderLineItem
     {
         [Key]
@@ -21,8 +25,9 @@ namespace CaseStudyBooksAPI.DAL.DomainClasses
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
 
-        public int ProductId { get; set; }
-        [ForeignKey("ProductId")]
+        [StringLength(450)]
+        public string ProductName { get; set; }
+        [ForeignKey("ProductName")]
         public Product Product { get; set; }
 
         public int QtyOrdered { get; set; }
