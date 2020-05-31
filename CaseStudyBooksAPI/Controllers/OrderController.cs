@@ -37,15 +37,20 @@ namespace CaseStudyBooksAPI.Controllers
 
                 Customer orderOwner = customerDAO.GetByEmail(orderHelper.Email);
 
-                int orderId = orderDAO.AddOrder(orderOwner.Id, orderHelper.Selections);
+                AddOrderResultHelper result = orderDAO.AddOrder(orderOwner.Id, orderHelper.Selections);
 
-                if (orderId > 0)
+                if (result.OrderId > 0)
                 {
-                    ret = "Order " + orderId + " is successfully saved.";
+                    ret = "Order " + result.OrderId + " is successfully saved.";
+                    
+                    if (result.IsThereBackOrder)
+                    {
+                        ret += " Goods are backordered.";
+                    }
                 }
                 else
                 {
-                    ret = "Order not saved.";
+                    ret = "Order is not saved.";
                 }
             }
             catch(Exception ex)

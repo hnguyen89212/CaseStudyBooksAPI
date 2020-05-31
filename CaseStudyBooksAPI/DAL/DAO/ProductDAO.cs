@@ -23,5 +23,32 @@ namespace CaseStudyBooksAPI.DAL.DAO
         {
             return _db.Products.Where(each => each.BrandId == brandId).ToList();
         }
+
+        // Gets a product by its name.s
+        public Product GetByProductName(string name)
+        {
+            return _db.Products.Where(each => each.ProductName == name).FirstOrDefault();
+        }
+
+        public void Update(Product product)
+        {
+            Product productFromDb = GetByProductName(product.ProductName);
+
+            if (productFromDb != null)
+            {
+                productFromDb.BrandId = product.BrandId;
+                productFromDb.GraphicName = product.GraphicName;
+                productFromDb.CostPrice = product.CostPrice;
+                productFromDb.MSRP = product.MSRP;
+                productFromDb.QtyOnHand = product.QtyOnHand;
+                productFromDb.QtyOnBackOrder = product.QtyOnBackOrder;
+                productFromDb.Description = product.Description;
+                productFromDb.ReleasedYear = product.ReleasedYear;
+
+                //_db.Update(productFromDb);
+                _db.Products.Update(productFromDb);
+                _db.SaveChanges();
+            }
+        }
     }
 }

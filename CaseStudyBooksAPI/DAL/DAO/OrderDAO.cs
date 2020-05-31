@@ -18,26 +18,33 @@ namespace CaseStudyBooksAPI.DAL.DAO
 
         // Adds a new Order, updates both the Order and OrderLineItem table using transaction.
         // Returns the new Order entry Id.
-        public int AddOrder(int CustomerId, OrderSelectionHelper[] Selections)
+        public AddOrderResultHelper AddOrder(int CustomerId, OrderSelectionHelper[] Selections)
         {
             int orderId = -1;
-            
-            using(_db)
+
+            bool isThereBackOrder = false;
+
+            using (_db)
             {
                 using (var _transaction = _db.Database.BeginTransaction())
                 {
                     try
                     {
+                        ProductDAO productDAO = new ProductDAO(_db);
+                        decimal orderAmount = 0;
+                        decimal hst = 0;
+
                         // Constructs a new Order object
                         Order order = new Order();
                         order.CustomerId = CustomerId;
                         order.OrderDate = System.DateTime.Now;
 
-                        decimal orderAmount = 0;
-                        foreach(OrderSelectionHelper selection in Selections)
+                        // Finds the total amount for the order.
+                        foreach (OrderSelectionHelper selection in Selections)
                         {
-                            orderAmount += selection.Item.CostPrice;
-                            // todo: quantity handling
+                            orderAmount += (selection.Item.CostPrice) * (selection.Qty); // subtotal
+                            hst = orderAmount * 0.13M; // hst
+                            orderAmount += hst; //total for that selection.
                         }
                         order.OrderAmount = orderAmount;
 
@@ -45,17 +52,39 @@ namespace CaseStudyBooksAPI.DAL.DAO
                         _db.Orders.Add(order);
                         _db.SaveChanges();
 
-                        // Persists the OrderLineItem objects to db
-                        foreach(OrderSelectionHelper selection in Selections)
+                        //Saves the order line items into the db.
+                        foreach (OrderSelectionHelper selection in Selections)
                         {
                             OrderLineItem orderLineItem = new OrderLineItem();
-                            orderLineItem.OrderId = order.Id;
+                            orderLineItem.OrderId = order.Id; //oops
                             orderLineItem.ProductName = selection.ProductName;
 
-                            // todo: quantity handling
-                            orderLineItem.QtyOrdered = selection.Qty;
-                            orderLineItem.QtySold = selection.Qty;
-                            orderLineItem.QtyBackOrdered = selection.Qty;
+                            Product product = productDAO.GetByProductName(selection.ProductName);
+
+                            if (selection.Qty <= product.QtyOnHand)
+                            {
+                                //We have enough stock
+                                product.QtyOnHand -= selection.Qty;
+                                product.QtyOnBackOrder = 0;
+
+                                orderLineItem.QtySold = selection.Qty;
+                                orderLineItem.QtyOrdered = selection.Qty;
+                                orderLineItem.QtyBackOrdered = 0;
+                            }
+                            else
+                            {
+                                //We lack stock.
+                                orderLineItem.QtySold = product.QtyOnHand;
+                                orderLineItem.QtyOrdered = selection.Qty;
+                                orderLineItem.QtyBackOrdered = (selection.Qty - product.QtyOnHand);
+
+                                product.QtyOnBackOrder += (selection.Qty - product.QtyOnHand);
+                                product.QtyOnHand = 0;
+
+                                isThereBackOrder = true;
+                            }
+
+                            productDAO.Update(product);
 
                             _db.OrderLineItems.Add(orderLineItem);
                             _db.SaveChanges();
@@ -65,7 +94,7 @@ namespace CaseStudyBooksAPI.DAL.DAO
                         _transaction.Commit();
                         orderId = order.Id;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                         _transaction.Rollback();
@@ -73,8 +102,11 @@ namespace CaseStudyBooksAPI.DAL.DAO
                 }
             }
 
-            return orderId;
-        }
+            AddOrderResultHelper outcome = new AddOrderResultHelper();
+            outcome.OrderId = orderId;
+            outcome.IsThereBackOrder = isThereBackOrder;
 
+            return outcome;
+        }
     }
 }
