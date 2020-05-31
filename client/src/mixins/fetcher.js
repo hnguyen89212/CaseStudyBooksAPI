@@ -16,7 +16,6 @@ export default {
           headers: headers,
         });
         payload = await response.json();
-        console.log(payload);
       } catch (err) {
         console.log(err);
         payload = err;
@@ -25,12 +24,16 @@ export default {
     },
     $_postdata: async function(apiCall, data) {
       let payload = JSON.stringify(data);
+      let headers = {};
+      if (apiCall === "register" || apiCall == "login") {
+        headers = { "Content-Type": "application/json; charset=utf-8" };
+      } else {
+        headers = this.buildHeaders();
+      }
       try {
         let response = await fetch(`${this.serverBaseURL}${apiCall}`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          },
+          headers: headers,
           body: payload,
         });
         payload = await response.json();

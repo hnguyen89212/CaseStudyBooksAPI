@@ -42,7 +42,9 @@ namespace CaseStudyBooksAPI
                 });
             });
 
-            services.AddControllers();
+            // Adds Newtonsoft to resolve the Int32 parsing from Json.
+            services.AddMvc().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson();
 
             // Specifies DB context
             services.AddDbContext<AppDbContext>(options => 

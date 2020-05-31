@@ -23,11 +23,8 @@
       <v-simple-table>
         <thead>
           <tr>
-            <!-- <th class="text-left">Book</th> -->
             <th class="text-left">Qty</th>
             <th class="text-left">Product</th>
-            <!-- ext = price * qty -->
-            <!-- <th class="text-left">Ext.</th> -->
           </tr>
         </thead>
       </v-simple-table>
@@ -63,9 +60,9 @@
         <tbody>
           <tr v-for="(each, i) in cart" v-bind:key="i">
             <td>{{ each.item.productName }}</td>
-            <td>{{ each.item.costPrice | currency }}</td>
+            <td>${{ each.item.costPrice.toFixed(2) }}</td>
             <td>x{{ each.qty }}</td>
-            <td>{{ (each.item.costPrice * each.qty) | currency }}</td>
+            <td>${{ (each.item.costPrice * each.qty).toFixed(2) }}</td>
           </tr>
           <tr>
             <td></td>
@@ -73,7 +70,7 @@
             <td>
               Subtotal:
             </td>
-            <td>{{ subtotal | currency }}</td>
+            <td>${{ subtotal.toFixed(2) }}</td>
           </tr>
           <tr>
             <td></td>
@@ -81,7 +78,7 @@
             <td>
               HST:
             </td>
-            <td>{{ hst | currency }}</td>
+            <td>${{ hst.toFixed(2) }}</td>
           </tr>
           <tr>
             <td></td>
@@ -89,14 +86,21 @@
             <td>
               Cart total:
             </td>
-            <td>{{ cartTotal | currency }}</td>
+            <td>${{ cartTotal.toFixed(2) }}</td>
           </tr>
-          <tr>
-            <td colspan="12">
-              <v-btn primary rounded outlined color="info" @click="flushCart"
-              >Flush cart
-            </v-btn>
+          <tr colspan="12">
+            <td>
+              <v-btn medium rounded outlined color="default" @click="flushCart"
+                >Flush cart
+              </v-btn>
             </td>
+            <td></td>
+            <td>
+              <v-btn medium rounded outlined color="success" @click="checkout">
+                Check out
+              </v-btn>
+            </td>
+            <td></td>
           </tr>
         </tbody>
       </v-simple-table>
@@ -105,6 +109,8 @@
 </template>
 
 <script>
+import fetcher from "../mixins/fetcher";
+
 export default {
   name: "CartDetails",
   data() {
@@ -128,33 +134,81 @@ export default {
       this.cart = [];
     }
   },
+  mixins: [fetcher],
   methods: {
     flushCart: function() {
       sessionStorage.removeItem("cart");
       this.cart = [];
       this.status = "Cart flushed.";
     },
+    checkout: async function() {
+      let user = JSON.parse(sessionStorage.getItem("user"));
+      let cart = JSON.parse(sessionStorage.getItem("cart"));
+      try {
+        this.status = "Checking out, saving your cart...";
+        let orderHelper = {
+          email: user.email,
+          selections: cart,
+        };
+        // Makes a HttpPost request to the OrderController.
+        let payload = await this.$_postdata("order", orderHelper);
+        payload = JSON.stringify(payload);
+        if (payload.indexOf("not") > 0 || payload.indexOf("problem") > 0) {
+          this.status = payload;
+        } else {
+          this.flushCart();
+          this.status = payload;
+        }
+      } catch (err) {
+        this.status = `Error checking out: ${err}`;
+      }
+    },
   },
 };
 /*
-this.cart = [
+cart (in back-end OrderHelper.Selections) = [
   {
     item: {
-      brand:null
-      brandId:1
-      costPrice:122.72
-      description:"CSS: The Definitive Guide: ztgtftnqlradmuruhrfjxqzbtiszbcntdeeebnqvxkryflfbkyooujpvvrgtdftxkmspvjdntjnjffitmfzivkvuilamjgekvcyi"
-      graphicName:"css_the_definitive_guide.jpg"
-      msrp:122.98
-      productName:"CSS: The Definitive Guide"
-      qtyOnBackOrder:3
-      qtyOnHand:89
-      releasedYear:2017
-      timer:"AAAAAAAACAk="
-    },
-    productName: "",
+      brand: null
+      brandId: 4
+      costPrice: 136.37
+      description: "Critical Thinking Skills For Dummies: sdoalxxhtiguhegntzeshtrkgneiyopozgduvwtyxvkjogghfheldowjswziesrbdxbcckqeskmhbkhwpjxhltkhchetwczwjkuc"
+      graphicName: "ciritical_thinking.jpg"
+      msrp: 137.6
+      productName: "Critical Thinking Skills For Dummies"
+      qtyOnBackOrder: 5
+      qtyOnHand: 74
+      releasedYear: 1994
+      timer: "AAAAAAAAB/4="
+    }
+    productName: "Critical Thinking Skills For Dummies"
     qty: "1"
   },
-]
+  {
+    item: {
+      brand: null
+      brandId: 4
+      costPrice: 29.18
+      description: "Financial Modeling in Excel For Dummies: bsbphaqjxptwqlxznipcihaljmqbxyuxjwgzhocfkacnrqgohbrlxgbolqqowjlsytecgtiuamneibzvdfejcwfpsijojhonicug"
+      graphicName: "financial_modeling.jpg"
+      msrp: 32.67
+      productName: "Financial Modeling in Excel For Dummies"
+      qtyOnBackOrder: 3
+      qtyOnHand: 67
+      releasedYear: 2019
+      timer: "AAAAAAAACAI="
+    },
+    productName: "Financial Modeling in Excel For Dummies"
+    qty: "2"
+  }
+];
+
+user = {
+  email: "h_nguyen89212@fanshaweonline.ca"
+  firstName: ""
+  lastName: ""
+  password: ""
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhfbmd1eWVuODkyMTJAZmFuc2hhd2VvbmxpbmUuY2EiLCJuYmYiOjE1OTA4ODI4NDMsImV4cCI6MTU5MTQ4NzY0MywiaWF0IjoxNTkwODgyODQzfQ.jA0vkEFMAo6bkcCyUqRJOzatUGg7siwAaUjCTSWGuDM"
+};
 */
 </script>
