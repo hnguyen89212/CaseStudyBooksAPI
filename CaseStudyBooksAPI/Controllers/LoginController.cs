@@ -40,6 +40,11 @@ namespace CaseStudyBooksAPI.Controllers
         {
             CustomerDAO dao = new CustomerDAO(_db);
             Customer user = dao.GetByEmail(userHelper.email);
+            if (user == null)
+            {
+                userHelper.token = "Credentials invalid - login failed";
+                return userHelper;
+            }
             if (VerifyPassword(userHelper.password, user.Hash, user.Salt))
             {
                 userHelper.password = "";

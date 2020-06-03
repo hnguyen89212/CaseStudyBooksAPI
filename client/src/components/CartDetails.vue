@@ -10,79 +10,53 @@
         <strong>Shopping Cart:</strong>
         <v-img
           :src="require('../assets/cart.png')"
-          style="height:12vh;width:12vh;"
+          style="height:9vh;width:12vh;"
           aspect-ratio="1"
         />
       </v-col>
     </v-row>
     <!-- cart status -->
     <v-row style="margin:2vw;">{{ status }}</v-row>
-    <!-- container to house all 3 tables -->
+
+    <!-- container to house all tables -->
     <div v-if="this.status !== 'Cart flushed.'">
-      <!-- 1st table -->
+
       <v-simple-table>
-        <thead>
+        <thead >
           <tr>
-            <th class="text-left">Qty</th>
-            <th class="text-left">Product</th>
+            <th class="title" colspan="3">Cart Summary</th>
+          </tr>
+          <tr>
+            <th class="text-center">Book</th>
+            <th class="text-center">Cost Price</th>
           </tr>
         </thead>
       </v-simple-table>
-      <!-- 2nd table: scrollbale simple list -->
+
       <v-simple-table
-        style="max-height:12vh;margin-bottom:2vh;"
+        style="max-height:45vh;margin-bottom:2vh;"
         class="overflow-y-auto"
       >
-        <tbody>
-          <tr v-for="item in cart" :key="item.id">
-            <td>{{ item.qty }}</td>
-            <td>{{ item.item.productName }}</td>
+        <tbody v-for="(each, i) in cart" v-bind:key="i" class="text-center">
+          <tr colspan="4">
+            <td>{{ each.item.productName }}</td>
+            <td >${{ each.item.costPrice.toFixed(2) }} x {{ each.qty }} = <span class="font-weight-bold">${{ subtotal.toFixed(2) }}</span></td>
           </tr>
         </tbody>
-      </v-simple-table>
-      <!-- 3rd table -->
-      <v-simple-table
-        style="max-height:40vh;margin-bottom:2vh;border:solid;border-width:thin;"
-        class="overflow-y-auto"
-      >
-        <thead>
+        <tbody class="text-center" >
           <tr>
-            <th colspan="4" class="text-left title">Cart Summary</th>
-          </tr>
-          <tr>
-            <th class="text-left">Book</th>
-            <th class="text-center">Cost Price</th>
-            <th class="text-center">Qty</th>
-            <!-- ext = price * qty -->
-            <th class="text-center">Extended Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(each, i) in cart" v-bind:key="i">
-            <td>{{ each.item.productName }}</td>
-            <td>${{ each.item.costPrice.toFixed(2) }}</td>
-            <td>x{{ each.qty }}</td>
-            <td>${{ (each.item.costPrice * each.qty).toFixed(2) }}</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
             <td>
               Subtotal:
             </td>
             <td>${{ subtotal.toFixed(2) }}</td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
             <td>
               HST:
             </td>
             <td>${{ hst.toFixed(2) }}</td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
             <td>
               Cart total:
             </td>
@@ -94,7 +68,6 @@
                 >Flush cart
               </v-btn>
             </td>
-            <td></td>
             <td>
               <v-btn medium rounded outlined color="success" @click="checkout">
                 Check out
