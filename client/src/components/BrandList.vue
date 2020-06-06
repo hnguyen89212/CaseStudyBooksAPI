@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row
       justify="center"
-      class="text-center display-2"
+      class="text-center display-1"
       style="margin-top:.5em;"
       >Brands/Publishers</v-row
     >

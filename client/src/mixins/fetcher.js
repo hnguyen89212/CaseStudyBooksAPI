@@ -50,5 +50,10 @@ export default {
       headers.append("Authorization", "Bearer " + user.token);
       return headers;
     },
+    $_buildRouteWithParams: function(...data) {
+      let routeParams = "";
+      data.map((param) => (routeParams += `${param}/`)); // assume api route is first element
+      return routeParams;
+    },
   },
 };

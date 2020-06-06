@@ -6,6 +6,7 @@ import CartDetails from "./components/CartDetails.vue";
 import Register from "./components/Register.vue";
 import Login from "./components/Login.vue";
 import Logout from "./components/Logout.vue";
+import OrderList from "./components/OrderList.vue";
 
 Vue.use(Router);
 
@@ -42,6 +43,11 @@ export const router = new Router({
       path: "/logout",
       name: "logout",
       component: Logout,
+    },
+    {
+      path: "/orderList",
+      name: "orderList",
+      component: OrderList,
     },
   ],
 });

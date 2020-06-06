@@ -38,6 +38,7 @@ export default {
       { text: "Register", route: "/register" },
       { text: "Login", route: "/login" },
       { text: "Logout", route: "/logout" },
+      { text: "Orders List", route: "/orderList" },
     ],
   }),
 };
