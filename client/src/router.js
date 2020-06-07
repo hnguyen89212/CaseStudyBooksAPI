@@ -7,6 +7,7 @@ import Register from "./components/Register.vue";
 import Login from "./components/Login.vue";
 import Logout from "./components/Logout.vue";
 import OrderList from "./components/OrderList.vue";
+import BranchLocator from "./components/BranchLocator.vue";
 
 Vue.use(Router);
 
@@ -48,6 +49,11 @@ export const router = new Router({
       path: "/orderList",
       name: "orderList",
       component: OrderList,
+    },
+    {
+      path: "/branchLocator",
+      name: "branchLocator",
+      component: BranchLocator,
     },
   ],
 });

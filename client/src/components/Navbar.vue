@@ -35,10 +35,11 @@ export default {
     links: [
       { text: "Home", route: "/" },
       { text: "Brands/Publishers", route: "/brands" },
+      { text: "Orders List", route: "/orderList" },
+      { text: "Branch Locator", route: "/branchLocator" },
       { text: "Register", route: "/register" },
       { text: "Login", route: "/login" },
       { text: "Logout", route: "/logout" },
-      { text: "Orders List", route: "/orderList" },
     ],
   }),
 };
