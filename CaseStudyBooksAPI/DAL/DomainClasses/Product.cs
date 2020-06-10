@@ -20,7 +20,7 @@ namespace CaseStudyBooksAPI.DAL.DomainClasses
         [ForeignKey("BrandId")]
         public Brand Brand { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(100)]
         public string GraphicName { get; set; }
 

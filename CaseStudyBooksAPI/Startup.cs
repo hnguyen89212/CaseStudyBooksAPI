@@ -39,6 +39,7 @@ namespace CaseStudyBooksAPI
                 builder =>
                 {
                     builder.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod();
+                    builder.WithOrigins("http://casestudybooksapi.azurewebsites.net").AllowAnyHeader().AllowAnyMethod();
                 });
             });
 
@@ -85,6 +86,10 @@ namespace CaseStudyBooksAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // deployment, serving the wwwroot dir
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

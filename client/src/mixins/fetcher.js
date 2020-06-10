@@ -2,7 +2,8 @@
 export default {
   data() {
     return {
-      serverBaseURL: "https://localhost:44308/api/",
+      // serverBaseURL: "https://localhost:44308/api/",
+      serverBaseURL: "/api/",
     };
   },
   methods: {
