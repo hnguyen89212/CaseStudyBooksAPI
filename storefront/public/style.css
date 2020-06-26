@@ -1,0 +1,9 @@
+.thumbnail {
+  width: 200px;
+  height: 250px;
+}
+
+.book-description {
+  width: 450px;
+  background-color: aqua;
+}
