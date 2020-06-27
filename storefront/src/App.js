@@ -6,6 +6,8 @@ import PrivateRoute from "./routing/PrivateRoute";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Cart from "./components/Cart";
+import OrderHistory from "./components/OrderHistory";
+import OrderComponent from "./components/OrderComponent";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           path="/brandlist"
           component={BrandList}
         ></PrivateRoute>
+        <PrivateRoute exact path="/order/:orderId" component={OrderComponent} />
+        <PrivateRoute exact path="/orderlist" component={OrderHistory} />
         <Route path="/cart" component={Cart} />
         <Route path="*" component={Login} />
       </Switch>

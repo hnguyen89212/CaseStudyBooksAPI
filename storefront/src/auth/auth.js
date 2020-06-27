@@ -29,7 +29,7 @@ class Auth {
     } catch (error) {
       payload = error;
     }
-    if (payload.token == REGISTER_SUCCESS) {
+    if (payload.token === REGISTER_SUCCESS) {
       this.authenticated = true;
       await sessionStorage.setItem("token", payload.token);
       await sessionStorage.setItem("user", payload.email);

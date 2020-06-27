@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import BrandComponent from "./BrandComponent";
 import BookList from "./BookList";
 import auth from "../auth/auth";
@@ -46,8 +46,8 @@ class BrandList extends React.Component {
   }
 
   handleClick(publisher) {
-    let id = publisher.id;
-    let url = `${SERVER_BASE_URL}/product/${id}`;
+    const id = publisher.id;
+    const url = `${SERVER_BASE_URL}/product/${id}`;
     fetch(url)
       .then((response) => response.json())
       .then(
@@ -82,8 +82,11 @@ class BrandList extends React.Component {
           >
             Log out
           </button>
-          <Link className="btn btn-outline-info" to="/cart">
+          <Link className="btn btn-outline-info mx-3" to="/cart">
             Your Cart
+          </Link>
+          <Link className="btn btn-outline-info mx-3" to="/orderlist">
+            Order History
           </Link>
         </div>
         <h3 className="my-5">Publishers</h3>

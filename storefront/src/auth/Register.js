@@ -119,7 +119,7 @@ class Register extends React.Component {
           <input
             className="btn btn-primary"
             type="submit"
-            value="Log In"
+            value="Sign Up"
           ></input>
         </form>
         <p className="my-3">

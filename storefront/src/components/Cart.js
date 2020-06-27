@@ -1,6 +1,7 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { SERVER_BASE_URL } from "../config/Config";
+import { formatPrice } from "../utils/Utils";
 
 class Cart extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class Cart extends React.Component {
       cart = JSON.parse(cart);
       let count = 0;
       let total = 0;
-      cart.map((each) => {
+      cart.forEach((each) => {
         count += each.qty;
         total += each.qty * each.item.costPrice;
       });
@@ -37,8 +38,8 @@ class Cart extends React.Component {
 
   async placeOrder(e) {
     e.preventDefault();
-    let email = await sessionStorage.getItem("user");
-    let token = await sessionStorage.getItem("token");
+    const email = await sessionStorage.getItem("user");
+    const token = await sessionStorage.getItem("token");
     let orderHelper = {
       email: email,
       selections: this.state.cart,
@@ -94,12 +95,15 @@ class Cart extends React.Component {
         </div>
       );
     }
-    let hst = "" + this.state.subtotal * 0.13;
-    const decimalPointIndex = hst.indexOf(".");
-    hst = Number.parseFloat(hst.substr(0, decimalPointIndex + 2));
+    let hst = this.state.subtotal * 0.13;
     return (
       <div className="container my-3">
-        <table className="table table-hover table-striped">
+        <div>
+          <Link className="btn btn-outline-info mx-3" to="/Home">
+            Home
+          </Link>
+        </div>
+        <table className="table table-hover table-striped my-3">
           <thead>
             <tr>
               <th>Name</th>
@@ -122,12 +126,12 @@ class Cart extends React.Component {
             </tr>
             <tr>
               <td>HST:</td>
-              <td>$ {hst}</td>
+              <td>$ {formatPrice(hst)}</td>
               <td>13%</td>
             </tr>
             <tr>
               <td>Total:</td>
-              <td>$ {this.state.subtotal + hst}</td>
+              <td>$ {formatPrice(this.state.subtotal + hst)}</td>
               <td></td>
             </tr>
           </tbody>

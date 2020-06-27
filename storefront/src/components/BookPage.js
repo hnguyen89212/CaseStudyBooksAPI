@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Redirect, Link } from "react-router-dom";
 import auth from "../auth/auth";
 
@@ -87,7 +87,6 @@ class BookPage extends React.Component {
                   value={this.state.quantity}
                   onChange={this.handleControlledInputChange}
                   required
-                  aria-valuemin="1"
                 />
               </div>
               {this.state.isQtyInvalid && (
